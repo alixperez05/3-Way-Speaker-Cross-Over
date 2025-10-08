@@ -1,0 +1,15 @@
+[Audio, Fs] = audioread ('Audio 7.wav'); % Reads the audio file 
+Input=zeros(length(Audio),2); % Creates a 2 column array with length of Audio, filled entirely with zeros
+Input(:,2)=Audio(:,2); % Sets the right column of Input equal to the right column of Audio
+Input(1,1)=0; % Sets the first timestamp to 0
+for n=2:length(Input) % Creates timestamps for each reading
+Input(n,1)=Input(n-1,1)+1/Fs;
+end
+sim('FinalProject.slx'); % Runs the Simscape file 
+out = ans; % Stores the outputs of the Simscape file in "out"
+sound(Input,Fs); % Plays the original audio file
+pause(5);
+sound(out.HPF,Fs); % Plays the output of the midrange speaker (after high pass filter)
+pause(5);
+sound(out.LPF,Fs); % Plays the output of the woofer (after low pass filter)
+pause(5);
